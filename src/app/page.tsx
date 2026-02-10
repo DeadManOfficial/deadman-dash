@@ -1,5 +1,6 @@
 import { getPrograms, getFindings, getTargets, getProjects, getStats } from "@/lib/notion";
 import HealthWidget from "@/components/HealthWidget";
+import BountyBrowser from "@/components/BountyBrowser";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 300; // ISR: refresh every 5 minutes
@@ -187,8 +188,9 @@ export default async function Dashboard() {
         </section>
       </div>
 
-      {/* Health Status */}
-      <div className="mt-6 grid grid-cols-1 gap-6">
+      {/* Bounty Hunter + Health */}
+      <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <BountyBrowser />
         <HealthWidget />
       </div>
 
