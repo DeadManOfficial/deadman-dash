@@ -1,5 +1,6 @@
 import { getPrograms, getFindings, getTargets, getProjects, getStats } from "@/lib/notion";
 
+export const dynamic = "force-dynamic";
 export const revalidate = 300; // ISR: refresh every 5 minutes
 
 function timeAgo(iso: string): string {
