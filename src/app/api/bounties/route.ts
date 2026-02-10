@@ -3,20 +3,18 @@ import { NextResponse } from "next/server";
 const H1_USER = process.env.H1_USERNAME?.trim() || "";
 const H1_TOKEN = process.env.H1_TOKEN?.trim() || "";
 
-function h1Auth() {
-  if (!H1_USER || !H1_TOKEN) return {};
-  const auth = Buffer.from(`${H1_USER}:${H1_TOKEN}`).toString("base64");
-  return { Authorization: `Bearer ${auth}` };
-}
-
 async function h1GraphQL(query: string, variables: Record<string, unknown> = {}) {
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+    "User-Agent": "DeadManDash/2.0",
+  };
+  if (H1_USER && H1_TOKEN) {
+    const auth = Buffer.from(`${H1_USER}:${H1_TOKEN}`).toString("base64");
+    headers["Authorization"] = `Bearer ${auth}`;
+  }
   const res = await fetch("https://hackerone.com/graphql", {
     method: "POST",
-    headers: {
-      ...h1Auth(),
-      "Content-Type": "application/json",
-      "User-Agent": "DeadManDash/2.0",
-    },
+    headers,
     body: JSON.stringify({ query, variables }),
     signal: AbortSignal.timeout(15000),
   });
