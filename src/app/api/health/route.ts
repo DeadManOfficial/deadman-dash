@@ -82,14 +82,31 @@ export async function GET() {
     );
   }
 
-  // HackerOne
+  // HackerOne (GraphQL with Bearer auth)
   if (env("H1_USERNAME") && env("H1_TOKEN")) {
     const auth = Buffer.from(`${env("H1_USERNAME")}:${env("H1_TOKEN")}`).toString("base64");
+    const start = Date.now();
     checks.push(
-      checkService("HackerOne", "https://api.hackerone.com/v1/me/reports?page[size]=1", {
-        Authorization: `Basic ${auth}`,
-        "User-Agent": "DeadManDash/1.0",
+      fetch("https://hackerone.com/graphql", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${auth}`,
+          "Content-Type": "application/json",
+          "User-Agent": "DeadManDash/1.0",
+        },
+        body: JSON.stringify({ query: "{ me { username } }" }),
+        signal: AbortSignal.timeout(8000),
       })
+        .then((r) => ({
+          name: "HackerOne",
+          status: (r.ok ? "active" : "dead") as "active" | "dead",
+          latency: Date.now() - start,
+        }))
+        .catch(() => ({
+          name: "HackerOne" as const,
+          status: "dead" as const,
+          latency: Date.now() - start,
+        }))
     );
   }
 
