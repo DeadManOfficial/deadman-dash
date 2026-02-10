@@ -79,12 +79,12 @@ export async function getPrograms(): Promise<Program[]> {
       return {
         id: page.id,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        name: getText(p["Name"] || p["Program"] || Object.values(p).find((v: any) => v.type === "title")),
+        name: getText(p["Program"] || p["Name"] || Object.values(p).find((v: any) => v.type === "title")),
         platform: getText(p["Platform"]),
-        bounty: getText(p["Bounty"]),
-        scope: getText(p["Scope Count"] || p["Assets"]),
+        bounty: getText(p["Bounty Range"] || p["Bounty"]),
+        scope: getText(p["Scope"]),
         status: getText(p["Status"]),
-        lastScanned: getText(p["Last Scanned"] || p["Last Scan"]),
+        lastScanned: getText(p["Last Scanned"]),
         updated: page.last_edited_time,
       };
     });
@@ -132,13 +132,13 @@ export async function getTargets(): Promise<Target[]> {
       return {
         id: page.id,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        domain: getText(p["Name"] || p["Domain"] || Object.values(p).find((v: any) => v.type === "title")),
+        domain: getText(p["Domain"] || p["Name"] || Object.values(p).find((v: any) => v.type === "title")),
         program: getText(p["Program"]),
-        ips: getText(p["IPs"] || p["IP"]),
-        server: getText(p["Server"]),
+        ips: getText(p["Open Ports"]),
+        server: getText(p["Tech Stack"]),
         status: getText(p["Status"]),
-        findings: getText(p["Findings Count"] || p["Findings"]),
-        lastRecon: getText(p["Last Recon"] || p["Last Scan"]),
+        findings: getText(p["Subdomains"]),
+        lastRecon: getText(p["Last Scan"]),
         updated: page.last_edited_time,
       };
     });
@@ -161,9 +161,9 @@ export async function getProjects(): Promise<Project[]> {
         id: page.id,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         name: getText(p["Name"] || Object.values(p).find((v: any) => v.type === "title")),
-        platform: getText(p["Platform"] || p["Service"]),
+        platform: getText(p["Platform"]),
         status: getText(p["Status"]),
-        url: getText(p["URL"] || p["Link"]),
+        url: getText(p["Live URL"] || p["Repo URL"]),
         updated: page.last_edited_time,
       };
     });

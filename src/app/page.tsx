@@ -146,7 +146,7 @@ export default async function Dashboard() {
                   <div className="flex items-center gap-2 mt-1 text-xs text-[#6b7280]">
                     {t.program && <span>{t.program}</span>}
                     {t.server && <span>• {t.server}</span>}
-                    {t.ips && <span>• {t.ips}</span>}
+                    {t.lastRecon && <span>• scanned {timeAgo(t.lastRecon)}</span>}
                   </div>
                 </div>
               ))
