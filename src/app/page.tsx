@@ -1,4 +1,5 @@
 import { getPrograms, getFindings, getTargets, getProjects, getStats } from "@/lib/notion";
+import HealthWidget from "@/components/HealthWidget";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 300; // ISR: refresh every 5 minutes
@@ -184,6 +185,11 @@ export default async function Dashboard() {
             )}
           </div>
         </section>
+      </div>
+
+      {/* Health Status */}
+      <div className="mt-6 grid grid-cols-1 gap-6">
+        <HealthWidget />
       </div>
 
       {/* Footer */}
