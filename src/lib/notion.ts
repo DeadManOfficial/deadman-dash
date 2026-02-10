@@ -1,12 +1,12 @@
 import { Client } from "@notionhq/client";
 
-const notion = new Client({ auth: process.env.NOTION_API_KEY });
+const notion = new Client({ auth: process.env.NOTION_API_KEY?.trim() });
 
 const DB = {
-  programs: process.env.NOTION_DB_PROGRAMS!,
-  findings: process.env.NOTION_DB_FINDINGS!,
-  targets: process.env.NOTION_DB_TARGETS!,
-  projects: process.env.NOTION_DB_PROJECTS!,
+  programs: (process.env.NOTION_DB_PROGRAMS || "").trim(),
+  findings: (process.env.NOTION_DB_FINDINGS || "").trim(),
+  targets: (process.env.NOTION_DB_TARGETS || "").trim(),
+  projects: (process.env.NOTION_DB_PROJECTS || "").trim(),
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
